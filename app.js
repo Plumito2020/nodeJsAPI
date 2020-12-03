@@ -22,6 +22,18 @@ app.use((req, res, next) => {
 // Setting up the middlewares
 app.use("/", productRouter);
 
+// Error handling
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(err.status || 500);
+  res.send({
+    error: {
+      status: err.statusCode || 500,
+      message: err.message,
+    },
+  });
+});
+
 mongoose
   .connect(
     "mongodb+srv://zakaria:zakaria@cluster0.0al6x.mongodb.net/test?retryWrites=true&w=majority"
